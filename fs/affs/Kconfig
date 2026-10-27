@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-2.0+
+
+config FS_AFFS
+	bool "Amiga FFS/OFS (FastFileSystem) support"
+	help
+	  This provides a read-only driver for the Amiga FastFileSystem (FFS)
+	  and OldFileSystem (OFS), as used on AmigaOS / AmigaOne RDB (Rigid
+	  Disk Block) partitions (DOS\0 through DOS\7, including the
+	  international, dir-cache and long-name variants).  It plugs into
+	  U-Boot's generic filesystem framework, so the fstype, ls, load and
+	  size commands work on FFS/OFS partitions.

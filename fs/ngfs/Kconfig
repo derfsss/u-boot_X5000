@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: GPL-2.0+
+
+config FS_NGFS
+	bool "Amiga New Generation File System (NGFS) support"
+	help
+	  This provides a read-only driver for the Amiga "New Generation File
+	  System" (NGFS), the 64-bit AmigaOS 4 filesystem (RDB DosType NGF\x).
+	  It is written from the on-disk format description in
+	  docs/ngfs-format.md and is unrelated to the SFS driver.  It plugs
+	  into U-Boot's generic filesystem framework, so the fstype, ls, load
+	  and size commands work on NGFS partitions.  Only NGF\1 volumes have
+	  been tested; NGF\0 support is untested.

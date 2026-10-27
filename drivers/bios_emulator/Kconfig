@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: GPL-2.0+
+#
+# AmigaOne X5000: Kconfig entry for the x86 BIOS emulator, which upstream
+# v2021.04 builds (drivers/Makefile) but offers no symbol for.
+#
+
+config BIOSEMU
+	bool "Enable the x86 BIOS emulator (run a video card's VBIOS)"
+	help
+	  Enable the SciTech x86 real-mode BIOS emulator (drivers/bios_emulator).
+	  It POSTs a PCI/PCIe VGA card's x86 Video BIOS on a non-x86 host so the
+	  card sets up a (VESA) framebuffer. Required on PowerPC boards such as the
+	  AmigaOne X5000 (Varisys Cyrus) that drive a Radeon card through its own
+	  VBIOS rather than a native U-Boot video driver.
+
+	  Boards using this must also define VIDEO_IO_OFFSET (the base added to
+	  emulated x86 I/O ports so they reach the card's PCIe I/O window) and, to
+	  actually set a linear mode, CONFIG_FRAMEBUFFER_SET_VESA_MODE.

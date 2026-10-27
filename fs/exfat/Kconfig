@@ -1,0 +1,7 @@
+config FS_EXFAT
+	bool "Enable EXFAT filesystem support"
+	imply CMD_FS_GENERIC if CMDLINE
+	help
+	  This provides exFAT support. AmigaOne: backported from mainline
+	  U-Boot (commit b0da72e) and registered read-only (fs/fs.c), so
+	  the write code is not linked.

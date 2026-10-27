@@ -1,0 +1,52 @@
+if TARGET_CYRUS_P5020 || TARGET_CYRUS_P5040
+
+config SYS_BOARD
+	default "cyrus"
+
+config SYS_VENDOR
+	default "varisys"
+
+config SYS_CONFIG_NAME
+	default "cyrus"
+
+# AmigaOne X5000: developer DDR-diagnostic options, used only by the
+# Cyrus_P5020_SDCARD_DDRDIAG*_defconfig builds. Normal firmware leaves them off.
+config CYRUS_DDR_DIAG
+	bool "SPL DDR diagnostics"
+	depends on SPL
+	help
+	  Print DDR diagnostics from the SPL on the serial console: RCW and
+	  reset status, clocks, the full SPD contents of each DIMM, the
+	  computed timings, every DDR controller register, the D_INIT memory
+	  fill result, a DRAM pattern test reporting errors per byte lane,
+	  and a check that the U-Boot copy reads back identically; if it
+	  does not, the SPL stops instead of starting a corrupted U-Boot.
+	  Adds a few seconds to every boot. A developer tool for
+	  fault-finding DDR problems; not for normal firmware images.
+
+config CYRUS_DDR_DIAG_RELAXED
+	bool "Relaxed DDR timings for diagnosis"
+	depends on CYRUS_DDR_DIAG
+	help
+	  Run DDR with 2T command timing and CAS latency 10 instead of the
+	  SPD-derived values, at the unchanged data rate. A board that
+	  passes the DDR diagnostics only with this set has a marginal
+	  signal path rather than a dead one.
+
+config CYRUS_DDR_DIAG_SWEEP
+	bool "Boot-to-boot DDR timing sweep for diagnosis"
+	depends on CYRUS_DDR_DIAG
+	select SPL_MMC_WRITE
+	help
+	  Each power-on applies one DDR write-levelling setting at the
+	  normal DDR init, then runs the DDR diagnostics: every byte lane
+	  at the same start, 0x02..0x14 in quarter-clock steps, mapping each
+	  lane's working window (apply the result with the ddr_wrlvlN
+	  environment variable, see board/varisys/cyrus/ddr.c). A step counter
+	  in SD sector 0x3FF0 (offset 0x7FE000) advances on every boot;
+	  reflashing the image restarts the sweep. Writes one SD sector per
+	  boot. For fault-finding only.
+
+source "board/freescale/common/Kconfig"
+
+endif
